@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  server:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DB_URL=postgres://snakeos:snakeos@db:5432/snakeos
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=snakeos
+      - POSTGRES_PASSWORD=snakeos
+      - POSTGRES_DB=snakeos
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U snakeos" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
