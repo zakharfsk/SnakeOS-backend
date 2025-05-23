@@ -4,7 +4,7 @@ import docker
 from docker.errors import DockerException
 from fastapi import HTTPException
 
-from ..models import ContainerDetailResponse, ContainerListResponse, ContainerOperationResponse
+from ..schemas import ContainerDetailResponse, ContainerListResponse, ContainerOperationResponse
 
 
 class DockerClient:
@@ -48,6 +48,15 @@ class DockerClient:
             return None
         return " ".join(cmd) if isinstance(cmd, list) else cmd
 
+    def _get_cpu_allocation(self, host_config: Dict) -> str:
+        """Convert CPU shares to allocation level"""
+        cpu_shares = host_config.get("CpuShares", 1024)
+        if cpu_shares <= 512:
+            return "low"
+        elif cpu_shares <= 1024:
+            return "medium"
+        return "high"
+
     async def list_containers(self, all_containers: bool = False) -> List[ContainerListResponse]:
         """List all containers"""
         try:
@@ -76,15 +85,6 @@ class DockerClient:
             ]
         except DockerException as e:
             raise HTTPException(status_code=500, detail=f"Failed to list containers: {str(e)}")
-
-    def _get_cpu_allocation(self, host_config: Dict) -> str:
-        """Convert CPU shares to allocation level"""
-        cpu_shares = host_config.get("CpuShares", 1024)
-        if cpu_shares <= 512:
-            return "low"
-        elif cpu_shares <= 1024:
-            return "medium"
-        return "high"
 
     async def create_container(
         self,

@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from ..auth.utils import get_current_user
 from ..models import User
 from .clients import DockerClient
-from .models import ContainerCreate, ContainerDetailResponse, ContainerListResponse, ContainerOperationResponse, ContainerUpdate
+from .schemas import ContainerCreate, ContainerDetailResponse, ContainerListResponse, ContainerOperationResponse, ContainerUpdate
 
 router = APIRouter(prefix="/docker", tags=["docker"])
 
@@ -35,7 +35,7 @@ async def create_container(
         image=container.image,
         name=container.name,
         tag=container.tag,
-        web_ui=container.web_ui.dict() if container.web_ui else None,
+        web_ui=container.web_ui.model_dump() if container.web_ui else None,
         network=container.network,
         ports=container.ports,
         volumes=container.volumes,
