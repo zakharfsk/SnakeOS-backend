@@ -1,5 +1,4 @@
 from tortoise import fields
-from tortoise.contrib.pydantic import pydantic_model_creator
 from .base import BaseModel
 
 

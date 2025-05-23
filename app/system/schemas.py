@@ -1,43 +1,25 @@
+from typing import Dict, List, Optional
+
 from pydantic import BaseModel, Field
-from typing import List, Dict, Optional
 
 
 class PlatformInfo(BaseModel):
-    system: str = Field(
-        description="Operating system name (Windows, Linux, Darwin, etc.)"
-    )
+    system: str = Field(description="Operating system name (Linux)")
     release: str = Field(description="OS release version")
     version: str = Field(description="OS version information")
     machine: str = Field(description="Machine architecture")
     processor: str = Field(description="Processor information")
-    windows_edition: Optional[str] = Field(
-        None, description="Windows edition (Windows only)"
-    )
-    distribution: Optional[str] = Field(
-        None, description="Linux distribution name (Linux only)"
-    )
-    distribution_version: Optional[str] = Field(
-        None, description="Linux distribution version (Linux only)"
-    )
-    distribution_id: Optional[str] = Field(
-        None, description="Linux distribution ID (Linux only)"
-    )
+    distribution: str = Field(description="Linux distribution name")
+    distribution_version: str = Field(description="Linux distribution version")
+    distribution_id: str = Field(description="Linux distribution ID")
 
 
 class CpuInfo(BaseModel):
     physical_cores: int = Field(description="Number of physical CPU cores")
-    total_cores: int = Field(
-        description="Total number of CPU cores (including logical cores)"
-    )
-    cpu_freq_current: Optional[float] = Field(
-        None, description="Current CPU frequency in MHz"
-    )
-    cpu_freq_min: Optional[float] = Field(
-        None, description="Minimum CPU frequency in MHz"
-    )
-    cpu_freq_max: Optional[float] = Field(
-        None, description="Maximum CPU frequency in MHz"
-    )
+    total_cores: int = Field(description="Total number of CPU cores (including logical cores)")
+    cpu_freq_current: Optional[float] = Field(None, description="Current CPU frequency in MHz")
+    cpu_freq_min: Optional[float] = Field(None, description="Minimum CPU frequency in MHz")
+    cpu_freq_max: Optional[float] = Field(None, description="Maximum CPU frequency in MHz")
     cpu_usage_per_core: List[float] = Field(description="CPU usage percentage per core")
     total_cpu_usage: float = Field(description="Total CPU usage percentage")
 
@@ -85,9 +67,7 @@ class NetworkIOCounters(BaseModel):
 
 
 class NetworkInfo(BaseModel):
-    interfaces: Dict[str, List[NetworkAddress]] = Field(
-        description="Network interfaces information"
-    )
+    interfaces: Dict[str, List[NetworkAddress]] = Field(description="Network interfaces information")
     io_counters: Dict[str, NetworkIOCounters | Dict[str, str]] = Field(
         description="Network I/O statistics per interface or error message if not available"
     )

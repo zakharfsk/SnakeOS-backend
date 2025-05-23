@@ -1,5 +1,4 @@
 from tortoise import fields, models
-from datetime import datetime
 
 
 class BaseModel(models.Model):
@@ -16,11 +15,4 @@ class BaseModel(models.Model):
 
     def __str__(self):
         return f"{self.__class__.__name__}(id={self.id})"
-
-    async def save(self, *args, **kwargs):
-        """
-        Override save method to update the updated_at field
-        """
-        self.updated_at = datetime.now()
-        await super().save(*args, **kwargs)
 

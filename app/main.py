@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from loguru import logger
-from .auth.router import router as auth_router
+from .auth import router as auth_router
 from .system import router as system_router
+from .docker import router as docker_router
 from .settings import settings
 
 
@@ -34,3 +35,4 @@ app = FastAPI(
 # Register routers
 app.include_router(auth_router, prefix=settings.API_V1_STR)
 app.include_router(system_router, prefix=settings.API_V1_STR)
+app.include_router(docker_router, prefix=settings.API_V1_STR)

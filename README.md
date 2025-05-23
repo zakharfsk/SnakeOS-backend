@@ -1,6 +1,6 @@
 # SnakeOS Backend
 
-A FastAPI-based backend service for system monitoring and management with secure authentication.
+A FastAPI-based backend service for system monitoring and management with secure authentication, designed for Linux systems.
 
 ## Features
 
@@ -20,7 +20,6 @@ A FastAPI-based backend service for system monitoring and management with secure
   - RAM usage (total, available, used)
   - Swap memory statistics
   - Memory usage percentages
-  - Windows-specific memory handling
 
 - **Disk Information**
   - Partition details
@@ -33,10 +32,10 @@ A FastAPI-based backend service for system monitoring and management with secure
   - Network addresses and configurations
 
 - **Platform Information**
-  - OS details
+  - Linux distribution details
   - System version
   - Boot time
-  - Windows/Linux specific information
+  - Distribution-specific information
 
 ## Technology Stack
 
@@ -51,6 +50,7 @@ A FastAPI-based backend service for system monitoring and management with secure
 - Python 3.10+
 - PostgreSQL
 - Docker and Docker Compose (optional)
+- Linux operating system
 
 ## Installation
 
@@ -63,8 +63,7 @@ cd SnakeOS-backend
 2. Create and activate a virtual environment:
 ```bash
 python -m venv venv
-source venv/bin/activate  # Linux/macOS
-.\venv\Scripts\activate   # Windows
+source venv/bin/activate
 ```
 
 3. Install dependencies:
